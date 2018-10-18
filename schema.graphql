@@ -1,0 +1,13 @@
+type ListItem {
+  id: ID!
+  title: String!
+}
+
+type Mutation {
+  createListItem(title: String!): ListItem
+}
+
+type Query {
+  listItems: [ListItem]!
+  listItem(id: ID!): ListItem
+}

@@ -1,0 +1,4 @@
+type ListItem {
+  id: ID! @unique
+  title: String!
+}
