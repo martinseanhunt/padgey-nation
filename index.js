@@ -2,16 +2,31 @@ require('dotenv').config()
 
 const { prisma } = require('./generated/prisma')
 const { GraphQLServer } = require('graphql-yoga')
+const Filter = require('bad-words')
+
+const filter = new Filter()
 
 const resolvers = {
   Query: {
     listItems(parent, args, context, info) {
-      return context.prisma.listItems()
-    }
+      return context.prisma.listItems({ 
+        first: args.first,
+        skip: args.skip,
+        orderBy: 'createdAt_DESC' 
+      })
+    },
+    async listItemsConnection(parent, args, context, info) {
+      const res = await context.prisma.listItemsConnection().aggregate()
+      console.log(res)
+      return res
+    } 
   },
   Mutation: {
     createListItem(parent, args, context, info) {
-      return context.prisma.createListItem({ title: args.title })
+      return context.prisma.createListItem({ title: filter.clean(args.title) })
+    },
+    deleteListItem  (parent, args, context, info) {
+      return context.prisma.deleteListItem({ id: args.id })
     }
   }
 }
@@ -23,4 +38,9 @@ const server = new GraphQLServer({
     prisma
   },
 })
-server.start(() => console.log('Server is running on http://localhost:4000'))
+server.start({
+  cors: {
+    credentials: true, 
+    origin: process.env.FRONTEND_URL
+  }
+}, result => console.log('Server is running on ' + result.port))

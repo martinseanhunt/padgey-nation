@@ -3,11 +3,17 @@ type ListItem {
   title: String!
 }
 
+type AggregateListItem {
+  count: Int
+}
+
 type Mutation {
   createListItem(title: String!): ListItem
+  deleteListItem(id: ID!): ListItem
 }
 
 type Query {
-  listItems: [ListItem]!
+  listItems(first: Int!, skip: Int!): [ListItem]!
   listItem(id: ID!): ListItem
+  listItemsConnection: AggregateListItem
 }
