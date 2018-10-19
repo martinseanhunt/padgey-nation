@@ -15,10 +15,8 @@ const resolvers = {
         orderBy: 'createdAt_DESC' 
       })
     },
-    async listItemsConnection(parent, args, context, info) {
-      const res = await context.prisma.listItemsConnection().aggregate()
-      console.log(res)
-      return res
+    listItemsConnection(parent, args, context, info) {
+      return context.prisma.listItemsConnection().aggregate()
     } 
   },
   Mutation: {
