@@ -29,6 +29,8 @@ const resolvers = {
   }
 }
 
+console.log(process.env.FRONTEND_URL)
+
 const server = new GraphQLServer({
   typeDefs: './schema.graphql',
   resolvers,
@@ -36,9 +38,4 @@ const server = new GraphQLServer({
     prisma
   },
 })
-server.start({
-  cors: {
-    credentials: true, 
-    origin: process.env.FRONTEND_URL
-  }
-}, result => console.log('Server is running on ' + result.port))
+server.start({}, result => console.log('Server is running on ' + result.port))

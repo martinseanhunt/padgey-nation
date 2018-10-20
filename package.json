@@ -12,7 +12,17 @@
   },
   "devDependencies": {},
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "now": {
+    "dotenv": true,
+    "env": {
+      "NODE_ENV": "production"
+    },
+    "engines": {
+      "node": "^10.11.0"
+    }
   },
   "author": "",
   "license": "ISC"
